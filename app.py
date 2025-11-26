@@ -1,5 +1,6 @@
 import streamlit as st
 import os
+import uuid
 from typing import TypedDict
 from langchain_community.tools.tavily_search import TavilySearchResults
 from langchain_groq import ChatGroq
@@ -70,7 +71,10 @@ if "memory" not in st.session_state:
 
 app = workflow.compile(checkpointer=st.session_state.memory, interrupt_before=["reviewer"])
 
-thread = {"configurable": {"thread_id": "1"}}
+if "thread_id" not in st.session_state:
+    st.session_state.thread_id = str(uuid.uuid4())
+
+thread = {"configurable": {"thread_id": st.session_state.thread_id}}
 
 if "logs" not in st.session_state:
     st.session_state.logs = []
@@ -125,7 +129,7 @@ else:
             
     with col2:
         if st.button("Reject & Reset"):
-            config = {"configurable": {"thread_id": "1"}}
+            st.session_state.thread_id = str(uuid.uuid4())
             st.session_state.logs = []
             st.warning("Resetting...")
             st.rerun()
