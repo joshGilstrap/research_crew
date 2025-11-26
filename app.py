@@ -9,13 +9,13 @@ from langgraph.checkpoint.memory import MemorySaver
 st.set_page_config("Research Crew", layout='wide')
 st.title("Autonomous Research Crew")
 
-os.environ['TAVILY_API_KEY'] = st.secrets["TAVILY_API_KEY"]
+os.environ['TAVILY_API_KEY'] = st.secrets["tavily_api_key"]
 
 tool = TavilySearchResults(max_results=3)
 model = ChatGroq(
     model='llama-3.1-8b-instant',
     temperature=0,
-    api_key=st.secrets["GROQ_API_KEY"]
+    api_key=st.secrets["groq_api_key"]
 )
 model_with_tools = model.bind_tools([tool])
 
