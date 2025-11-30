@@ -2,7 +2,7 @@ name: Keep App Alive
 
 on:
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '*/30 * * * *'
   workflow_dispatch:
 
 jobs:
@@ -23,4 +23,4 @@ jobs:
           playwright install chromium
 
       - name: Run Wake Up Script
-        run: python wake_app.py
+        run: python wake_up.py
