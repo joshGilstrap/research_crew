@@ -6,9 +6,21 @@ on:
   workflow_dispatch:
 
 jobs:
-  ping_url:
+  wake_apps:
     runs-on: ubuntu-latest
     steps:
-      - name: Ping URL
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
         run: |
-          curl -L --cookie /tmp/cookies.txt --cookie-jar /tmp/cookies.txt --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36" https://researchcrew.streamlit.app
+          pip install playwright pytest-playwright
+          playwright install chromium
+
+      - name: Run Wake Up Script
+        run: python wake_app.py
